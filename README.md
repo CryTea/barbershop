@@ -1,3 +1,7 @@
+[![Java](https://img.shields.io/badge/Java-17-red.svg)](https://www.java.com) 
+[![JavaFX](https://img.shields.io/badge/JavaFX-20-blue.svg)](https://openjfx.io)
+[![SQLite](https://img.shields.io/badge/SQLite-3.39.2-lightgrey.svg)](https://www.sqlite.org)
+
 # BarberShop JavaFX App
 ### Requirements
 The system aims to facilitate the management of appointments, transactions, products, services, invoices, and requisitions for a barber shop. 
