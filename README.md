@@ -21,18 +21,18 @@ This data includes client information, service and product details, invoice amou
     <img src="images/calendarDark.png" alt="calandarDark">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/addEvent.png" alt="addEvent">
+    <img src="images/addEvent.png" alt="addEvent" height = "150">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/editEvent.png" alt="editEvent">
+    <img src="images/editEvent.png" alt="editEvent" height = "150">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/deleteEvent.png" alt="deleteEvent">
+    <img src="images/deleteEvent.png" alt="deleteEvent" height = "150">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/generateInvoice.png" alt="generateInvoice">
+    <img src="images/generateInvoice.png" alt="generateInvoice" height = "300">
   </a>
-  <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
+  <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App"  height = "300">
     <img src="images/seeInvoice.png" alt="seeInvoice">
   </a>
 
