@@ -14,6 +14,7 @@ The system stores data related to clients, services, products, invoices and appo
 This data includes client information, service and product details, invoice amounts and appointment schedules.
 
 ## Visuals
+<center>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
     <img src="images/calendar.png" alt="calandar">
   </a>
@@ -32,9 +33,10 @@ This data includes client information, service and product details, invoice amou
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
     <img src="images/generateInvoice.png" alt="generateInvoice" height = "300">
   </a>
-  <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App"  height = "300">
-    <img src="images/seeInvoice.png" alt="seeInvoice">
+  <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
+    <img src="images/seeInvoice.png" alt="seeInvoice" height = "300">
   </a>
+</center>
 
 ## Run the project
 You can run the project using the .jar file: [BarberShop.jar](https://github.com/NiemaAM/BarberShop-JavaFX-App/blob/main/BarberShop/BarberShop.jar.lnk)
