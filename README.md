@@ -16,6 +16,31 @@ This data includes client information, service and product details, invoice amou
 ## Run the project
 You can run the project using the .jar file: [BarberShop.jar](https://github.com/NiemaAM/BarberShop-JavaFX-App/blob/main/BarberShop/BarberShop.jar.lnk)
 
+## Project Structure
+```bash
+├── controllers
+│   ├── alerts
+│   ├── database
+│   ├── patterns
+│   └── style
+├── models
+│   ├── Client.java
+│   ├── Event.java
+│   ├── Invoice.java
+│   ├── InvoiceProduct.java
+│   ├── InvoiceService.java
+│   ├── Product.java
+│   └── Service.java
+├── views
+│   ├── calandar
+│   ├── clients
+│   ├── products
+│   ├── services
+│   └── Menu.java
+├── App.java
+└── Main.java
+```
+
 ## Database (sql lite)
 [![SQLite](https://img.shields.io/badge/SQLite-3.39.2-lightgrey.svg)](https://www.sqlite.org)
 ```sql
@@ -82,17 +107,23 @@ CREATE TABLE Service (
 );
 ```
 
-## Controller (Java)
+## Controllers (Java)
 [![Java](https://img.shields.io/badge/Java-17-red.svg)](https://www.java.com)
-```java
-
+```bash
+└── controllers
+    ├── alerts
+    ├── database
+    ├── patterns
+    └── style
 ```
 
-## View (JavaFx)
+## Views (JavaFx)
 [![JavaFX](https://img.shields.io/badge/JavaFX-20-blue.svg)](https://openjfx.io)
-```java
-
-```
-```xml
-
+```bash
+└── views
+    ├── calandar
+    ├── clients
+    ├── products
+    ├── services
+    └── Menu.java
 ```
