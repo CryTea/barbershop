@@ -107,14 +107,24 @@ CREATE TABLE Service (
 );
 ```
 
-## Controllers (Java)
+## Controllers & Models (Java)
 [![Java](https://img.shields.io/badge/Java-17-red.svg)](https://www.java.com)
 ```bash
 └── controllers
     ├── alerts
+    │   ├── AlertController.java # control warrning, info and errors popups
+    │   └── StockAlert.java # control low stock popups
     ├── database
+    │   ├── DB.java # control database basic operations
+    │   ├── GetData.java # fetch data from the database
+    │   ├── AddData.java # add rows to the database
+    │   ├── UpdateData.java # update rows on the database 
+    │   └── DeleteData.java # delete rows from the database
     ├── patterns
+    │   └── PaternController.java # control text patterns
     └── style
+        ├── Colors.java # control the app colors and themes
+        └── HoverController.java # control the button hovers
 ```
 
 ## Views (JavaFx)
@@ -122,8 +132,26 @@ CREATE TABLE Service (
 ```bash
 └── views
     ├── calandar
+    │   ├── Calendar.java # calandar view
+    │   ├── AddEvent.java # add new event view
+    │   ├── EditEvent.java # edit event view
+    │   ├── DeleteEvent.java- # delete event view
+    │   ├── GenerateInvoice.java # generate an invoice view
+    │   └── SeeInvoice.java # see an invoice view
     ├── clients
+    │   ├── Clients.java # clients list view
+    │   ├── AddClient.java # add new client view
+    │   ├── EditClient.java # edit client view
+    │   └── DeleteClient.java # delete client view
     ├── products
+    │   ├── Products.java # products list view
+    │   ├── AddProduct.java # add new product view
+    │   ├── EditProduct.java # edit product view
+    │   └── DeleteProduct.java # delete product view
     ├── services
-    └── Menu.java
+    │   ├── Services.java # services list view
+    │   ├── AddService.java # add new service view
+    │   ├── EditService.java # edit service view
+    │   └── DeleteService.java # delete service view
+    └── Menu.java # side menu view
 ```
