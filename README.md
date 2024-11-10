@@ -15,25 +15,25 @@ This data includes client information, service and product details, invoice amou
 
 ## Visuals
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/calandar.png" alt="Logo" width="80" height="80">
+    <img src="images/calandar.png" alt="calandar" height="200">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/calandarDark.png" alt="Logo" width="80" height="80">
+    <img src="images/calandarDark.png" alt="calandarDark" height="200">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/addEvent.png" alt="Logo" width="80" height="80">
+    <img src="images/addEvent.png" alt="addEvent" height="200">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/editEvent.png" alt="Logo" width="80" height="80">
+    <img src="images/editEvent.png" alt="editEvent" height="200">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/deleteEvent.png" alt="Logo" width="80" height="80">
+    <img src="images/deleteEvent.png" alt="deleteEvent" height="200">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/generateInvoice.png" alt="Logo" width="80" height="80">
+    <img src="images/generateInvoice.png" alt="generateInvoice" height="200">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/seeInvoice.png" alt="Logo" width="80" height="80">
+    <img src="images/seeInvoice.png" alt="seeInvoice" height="200">
   </a>
 
 ## Run the project
