@@ -1,17 +1,15 @@
 # BarberShop JavaFX App
-* Requirements
+### Requirements
 The system aims to facilitate the management of appointments, transactions, products, services, invoices, and requisitions for a barber shop. 
 It allows appointments scheduling, billing of services and products, management of inventory, and tracking of financial transactions.
-
-* Entities
-- Client: Represents customers who schedule appointments and receive invoices for services and products.
-- Service: Describes the services offered by the business, including their name, code, description, price, and duration.
-- Product: Represents the products available for sale, including their name, code, description, and price.
-- Invoice: Represents the billing document issued to clients, including details such as the total cost, subtotal, tips, discount, tax rate, and balance due.
-- Appointment: Represents scheduled appointments, including the date, time, requested service, and any additional notes.
-- Requisition: Represents requests for products, including details such as the requisition number, requested date, received date, quantity received, and any notes.
-
-* Data
+### Entities
+- **Client:** Represents customers who schedule appointments and receive invoices for services and products.
+- **Service:** Describes the services offered by the business, including their name, code, description, price, and duration.
+- **Product:** Represents the products available for sale, including their name, code, description, and price.
+- **Invoice:** Represents the billing document issued to clients, including details such as the total cost, subtotal, tips, discount, tax rate, and balance due.
+- **Appointment:** Represents scheduled appointments, including the date, time, requested service, and any additional notes.
+- **Requisition:** Represents requests for products, including details such as the requisition number, requested date, received date, quantity received, and any notes.
+### Data
 The system stores data related to clients, services, products, invoices and appointments. 
 This data includes client information, service and product details, invoice amounts and appointment schedules.
 
