@@ -14,13 +14,14 @@ The system stores data related to clients, services, products, invoices and appo
 This data includes client information, service and product details, invoice amounts and appointment schedules.
 
 ## Visuals
-<center>
+<div align="center">
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/calendar.png" alt="calandar">
+    <img src="images/calendar.png" alt="calandar" height = "400">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
-    <img src="images/calendarDark.png" alt="calandarDark">
+    <img src="images/calendarDark.png" alt="calandarDark" height = "400">
   </a>
+  <br/>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
     <img src="images/addEvent.png" alt="addEvent" height = "150">
   </a>
@@ -30,13 +31,14 @@ This data includes client information, service and product details, invoice amou
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
     <img src="images/deleteEvent.png" alt="deleteEvent" height = "150">
   </a>
+  <br/>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
     <img src="images/generateInvoice.png" alt="generateInvoice" height = "300">
   </a>
   <a href="https://github.com/NiemaAM/BarberShop-JavaFX-App">
     <img src="images/seeInvoice.png" alt="seeInvoice" height = "300">
   </a>
-</center>
+</div>
 
 ## Run the project
 You can run the project using the .jar file: [BarberShop.jar](https://github.com/NiemaAM/BarberShop-JavaFX-App/blob/main/BarberShop/BarberShop.jar.lnk)
