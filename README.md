@@ -1,6 +1,6 @@
-[![Java](https://img.shields.io/badge/Java-17-red.svg)](https://www.java.com) 
-[![JavaFX](https://img.shields.io/badge/JavaFX-20-blue.svg)](https://openjfx.io)
-[![SQLite](https://img.shields.io/badge/SQLite-3.39.2-lightgrey.svg)](https://www.sqlite.org)
+![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)
+![JavaFX](https://img.shields.io/badge/JavaFX-%23ED8B00.svg?logo=openjdk&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-%2307405e.svg?logo=sqlite&logoColor=white)
 
 # BarberShop JavaFX App
 ### Requirements
@@ -73,7 +73,7 @@ You can run the project using the .jar file: [BarberShop.jar](https://github.com
 ```
 
 ## Controllers & Models (Java)
-[![Java](https://img.shields.io/badge/Java-17-red.svg)](https://www.java.com)
+![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)
 ```bash
 └── controllers
     ├── alerts
@@ -103,7 +103,7 @@ You can run the project using the .jar file: [BarberShop.jar](https://github.com
 ```
 
 ## Views (JavaFx)
-[![JavaFX](https://img.shields.io/badge/JavaFX-20-blue.svg)](https://openjfx.io)
+![JavaFX](https://img.shields.io/badge/JavaFX-%23ED8B00.svg?logo=openjdk&logoColor=white)
 ```bash
 └── views
     ├── calandar
@@ -131,7 +131,7 @@ You can run the project using the .jar file: [BarberShop.jar](https://github.com
     └── Menu.java # side menu view
 ```
 ## Database (sql lite)
-[![SQLite](https://img.shields.io/badge/SQLite-3.39.2-lightgrey.svg)](https://www.sqlite.org)
+![SQLite](https://img.shields.io/badge/SQLite-%2307405e.svg?logo=sqlite&logoColor=white)
 ```sql
 CREATE TABLE Client (
     client_id INTEGER PRIMARY KEY AUTOINCREMENT,
