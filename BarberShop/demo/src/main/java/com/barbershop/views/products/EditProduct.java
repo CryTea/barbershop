@@ -151,8 +151,7 @@ public class EditProduct implements Initializable {
 
             // Create the stage
             Stage stage = new Stage();
-            stage.getIcons().add(new Image(EditProduct.class.getResourceAsStream("product.png")));
-            stage.setScene(scene);
+            stage.getIcons().add(new Image(EditProduct.class.getResourceAsStream("/com/barbershop/images/product.png")));            stage.setScene(scene);
             stage.setTitle("Edit Product");
             stage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows until closed
             stage.setResizable(false); // Make the stage not resizable

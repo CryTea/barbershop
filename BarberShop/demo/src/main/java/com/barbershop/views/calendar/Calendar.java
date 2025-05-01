@@ -109,10 +109,16 @@ public class Calendar implements Initializable {
         for (List<Event> events : calendareventsMap.values()) {
             for (Event eve : events) {
                 // Convert attributes to lowercase for case-insensitive comparison
-                String clientName = eve.getClient().getFirst_name().toLowerCase()+" "+eve.getClient().getLast_name().toLowerCase();
+                String clientName = (eve.getClient() != null)
+                        ? eve.getClient().getFirst_name().toLowerCase() + " " + eve.getClient().getLast_name().toLowerCase()
+                        : "неизвестный клиент";
+
+                String service = (eve.getService() != null)
+                        ? eve.getService().getName().toLowerCase()
+                        : "неизвестная услуга";
                 String date = eve.getDateAndTime().toLowerCase();
                 String description = eve.getDecription().toLowerCase();
-                String service = eve.getService().getName().toLowerCase();
+
 
                 // Check if any attribute contains the search term
                 if (clientName.contains(searchTerm) ||
@@ -539,7 +545,9 @@ public class Calendar implements Initializable {
 
             VBox eventBox = new VBox();
             eventBox.setAlignment(Pos.CENTER);
-            String clientName = event.getClient().getFirst_name();
+            String clientName = (event.getClient() != null)
+                    ? event.getClient().getFirst_name()
+                    : "Неизвестный клиент";
             String clientText = clientName.length() > 8 ? clientName.substring(0, 7) + "..." : clientName;
             Text text = new Text(" " + clientText + ", " + event.getTime());
             text.setFont(Font.font("Arial", FontWeight.LIGHT, 10));

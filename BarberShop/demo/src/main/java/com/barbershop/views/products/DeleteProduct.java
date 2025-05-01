@@ -72,8 +72,7 @@ public class DeleteProduct implements Initializable {
 
             // Create the stage
             Stage stage = new Stage();
-            stage.getIcons().add(new Image(DeleteProduct.class.getResourceAsStream("product.png")));
-            stage.setScene(scene);
+            stage.getIcons().add(new Image(DeleteProduct.class.getResourceAsStream("/com/barbershop/images/product.png")));            stage.setScene(scene);
             stage.setTitle("Delete Product");
             stage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows until closed
             stage.setResizable(false); // Make the stage not resizable

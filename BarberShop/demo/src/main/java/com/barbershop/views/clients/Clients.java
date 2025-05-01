@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.barbershop.controllers.alerts.AlertController;
 import com.barbershop.controllers.database.GetData;
 import com.barbershop.controllers.style.Colors;
 import com.barbershop.controllers.style.HoverController;
@@ -35,23 +36,34 @@ public class Clients implements Initializable {
         AddClient.openAddClientWizard();
         loadTable();
     }
+
     @FXML
     private Button updateButton;
+
     @FXML
-    void onActionUpdateButton(ActionEvent event) {
-        edit();
-    }
     private void edit(){
+        if (selectedClient == null) {
+            AlertController.showError("Ошибка", "Выберите клиента для изменения");
+            return;
+        }
         EditClient.openEditClientWizard();
         loadTable();
     }
+
     @FXML
     private Button deleteButton;
+
     @FXML
     void onActionDeleteButton(ActionEvent event) {
+        if (selectedClient == null) {
+            AlertController.showError("Ошибка", "Выберите клиента для удаления");
+            return;
+        }
         DeleteClient.openDeleteClientWizard();
         loadTable();
     }
+
+
     @FXML 
     private Button searchButton;
     @FXML
@@ -122,6 +134,7 @@ public class Clients implements Initializable {
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && !event.isConsumed()) {
                 event.consume();
+                selectedClient = table.getSelectionModel().getSelectedItem();
                 if (selectedClient != null){
                     edit();
                 }

@@ -29,5 +29,9 @@ module com.barbershop {
     exports com.barbershop.controllers.alerts;
     opens com.barbershop.controllers.style to javafx.fxml;
     exports com.barbershop.controllers.style;
+    exports com.barbeshop.controllers;
+    opens com.barbeshop.controllers to javafx.fxml;
+    opens com.barbershop.views.admin to javafx.fxml;
+    opens com.barbershop.controllers.admin to javafx.fxml;
 
 }

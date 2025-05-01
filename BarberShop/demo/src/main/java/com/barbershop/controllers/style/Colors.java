@@ -1,5 +1,7 @@
 package com.barbershop.controllers.style;
 
+import javafx.scene.Scene;
+
 public class Colors {
     public static boolean isDark = false;
     public static String primary = "#56097a"; 
@@ -38,4 +40,17 @@ public class Colors {
             text2 = "WHITE"; 
         }
     }
+
+    public static void applyColorsToScene(Scene scene) {
+        String style =
+                ".root { -fx-background-color: " + background + "; -fx-text-fill: " + text + "; }\n" +
+                        ".button { -fx-background-color: " + primary + "; -fx-text-fill: " + text2 + "; }\n" +
+                        ".table-view { -fx-background-color: " + background2 + "; }\n" +
+                        ".label { -fx-text-fill: " + text + "; }\n" +
+                        ".text-field { -fx-background-color: " + background3 + "; -fx-text-fill: " + text2 + "; }";
+
+        scene.getRoot().setStyle(style);
+    }
+
+
 }

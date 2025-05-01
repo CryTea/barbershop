@@ -70,7 +70,7 @@ public class DeleteEvent implements Initializable {
 
             // Create the stage
             Stage stage = new Stage();
-            stage.getIcons().add(new Image(DeleteEvent.class.getResourceAsStream("delete.png")));
+            stage.getIcons().add(new Image(DeleteEvent.class.getResourceAsStream("/com/barbershop/images/delete.png")));
             stage.setScene(scene);
             stage.setTitle("Delete Event");
             stage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows until closed

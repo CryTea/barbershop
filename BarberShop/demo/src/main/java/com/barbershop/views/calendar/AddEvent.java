@@ -1,5 +1,6 @@
 package com.barbershop.views.calendar;
 
+import com.barbershop.controllers.alerts.StockAlert;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -23,7 +24,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -39,6 +42,8 @@ import com.barbershop.controllers.style.HoverController;
 import com.barbershop.models.Client;
 import com.barbershop.models.Event;
 import com.barbershop.models.Service;
+import com.barbershop.models.Invoice;
+import com.barbershop.controllers.database.DB;
 
 public class AddEvent implements Initializable {
     private Service selected_service = null;
@@ -66,58 +71,116 @@ public class AddEvent implements Initializable {
     @FXML
     private Button saveButton;
     @FXML
-    void onActionSaveButton(ActionEvent event) {
+    void onActionSaveButton(ActionEvent event) throws StockAlert {
         addEvent();
     }
     //add event button
-    public void addEvent() {
-        if (!PaternController.isValidName(clientFirstNameField.getText()) || !PaternController.isValidName(clientLastNameField.getText()) || !PaternController.isValidPhoneNumber(clientPhoneField.getText())){
+    public void addEvent() throws StockAlert {
+        // Проверка валидности ввода
+        if (!PaternController.isValidName(clientFirstNameField.getText()) ||
+                !PaternController.isValidName(clientLastNameField.getText()) ||
+                !PaternController.isValidPhoneNumber(clientPhoneField.getText())) {
             AlertController.showWarning("Invalid Input", "Please enter a valid input!");
-        } else if (selected_client != null){
+            return;
+        }
+
+        // Обработка клиента
+        if (selected_client == null) {
+            selected_client = new Client(
+                    clientFirstNameField.getText(),
+                    clientLastNameField.getText(),
+                    Integer.parseInt(clientPhoneField.getText()),
+                    new ArrayList<>(),
+                    new ArrayList<>()
+            );
+            selected_client.setClient_id(AddData.AddClient(selected_client));
+        } else {
             boolean found = false;
             for (Client c : GetData.AllClients) {
-                if (c.getClient_id() == selected_client.getClient_id()){
+                if (c.getClient_id() == selected_client.getClient_id()) {
                     found = true;
                     break;
                 }
             }
             if (!found) {
-                selected_client = new Client(clientFirstNameField.getText(), clientLastNameField.getText(), Integer.parseInt(clientPhoneField.getText()), new ArrayList<>(), new ArrayList<>());
+                selected_client = new Client(
+                        clientFirstNameField.getText(),
+                        clientLastNameField.getText(),
+                        Integer.parseInt(clientPhoneField.getText()),
+                        new ArrayList<>(),
+                        new ArrayList<>()
+                );
                 selected_client.setClient_id(AddData.AddClient(selected_client));
             }
-        } else if (selected_client == null){
-            selected_client = new Client(clientFirstNameField.getText(), clientLastNameField.getText(), Integer.parseInt(clientPhoneField.getText()), new ArrayList<>(), new ArrayList<>());
-            selected_client.setClient_id(AddData.AddClient(selected_client));
         }
 
-        // Combine the selected date, hour, and minute into a LocalDateTime object
-        LocalDateTime eventDateTime = LocalDateTime.of(dateField.getValue(), LocalTime.of(hourField.getValue(), minuteField.getValue()));   
+        // Создаем дату и время события
+        LocalDateTime eventDateTime = LocalDateTime.of(
+                dateField.getValue(),
+                LocalTime.of(hourField.getValue(), minuteField.getValue())
+        );
 
-        newEvent = new Event(eventDateTime, selected_client.getClient_id(), 0, selected_service.getServiceId(), descriptionField.getText());
-        
-        // Check if the new event conflicts with existing events
-        if (newEvent != null) {
-            if (newEvent.getDateTime().isBefore(LocalDateTime.now())) {
-                AlertController.showWarning("Invalid Date", "The event date must be after the current date and time!");
-            } else {
-                boolean hasConflict = false;
-                for (Event e : GetData.AllEvents) {
-                    if (e.getDateTime().equals(newEvent.getDateTime())){
-                        hasConflict = true;
-                        break;
-                    }
-                }
-                // If there is a conflict, show an alert
-                if (hasConflict) {
-                    AlertController.showWarning("Conflict", "The new event conflicts with an existing event.");
-                    return;
-                } else {
-                    newEvent.setClientId(selected_client.getClient_id());
-                    AddData.AddEvent(newEvent);
-                    // Close the window
-                    closeWindow();
-                }
+        // Проверка даты (не должна быть в прошлом)
+        if (eventDateTime.isBefore(LocalDateTime.now())) {
+            AlertController.showWarning("Invalid Date", "The event date must be after the current date and time!");
+            return;
+        }
+
+        // Проверка конфликтов с существующими событиями
+        for (Event e : GetData.AllEvents) {
+            if (e.getDateTime().equals(eventDateTime)) {
+                AlertController.showWarning("Conflict", "The new event conflicts with an existing event.");
+                return;
             }
+        }
+
+        // Если все проверки пройдены, создаем событие
+        try {
+            DB.startTransaction();
+
+            // 1. Создаем событие с временным invoice_id = NULL
+            newEvent = new Event(
+                    eventDateTime,
+                    selected_client.getClient_id(),
+                    null, // Используем null вместо -1
+                    selected_service.getServiceId(),
+                    descriptionField.getText()
+            );
+
+            int eventId = AddData.AddEvent(newEvent);
+            if (eventId == -1) {
+                throw new SQLException("Failed to create event");
+            }
+
+            // 2. Создаем инвойс с правильным appointment_id
+            Invoice newInvoice = new Invoice(
+                    selected_client.getClient_id(),
+                    eventId,
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    0.0
+            );
+
+            int invoiceId = AddData.AddInvoice(newInvoice);
+            if (invoiceId == -1) {
+                throw new SQLException("Failed to create invoice");
+            }
+
+            // 3. Обновляем событие с правильным invoice_id
+            DB.updateRow("DB", "event", "invoice_id = " + invoiceId, "event_id = " + eventId);
+
+            DB.commitTransaction();
+
+            // Обновляем список событий
+            GetData.GetAll();
+
+            // Закрываем окно
+            closeWindow();
+
+        } catch (SQLException e) {
+            DB.rollbackTransaction();
+            AlertController.showError("Database Error", "Failed to create event: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -308,8 +371,15 @@ public class AddEvent implements Initializable {
         });
 
         // Apply text formatter to clientPhoneField
-        clientPhoneField.setTextFormatter(new TextFormatter<>(PaternController.createPatternFilter("#########")));
-        
+        TextFormatter<String> phoneFormatter = new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d{0,9}")) { // Разрешаем только цифры (максимум 9)
+                return change;
+            }
+            return null; // Отклоняем изменения, если ввод не соответствует шаблону
+        });
+        clientPhoneField.setTextFormatter(phoneFormatter);
+
         HoverController.addPopUpHoverEffect(saveButton, "GREEN");
         HoverController.addPopUpHoverEffect(cancelButton, "RED");
     }
@@ -326,14 +396,26 @@ public class AddEvent implements Initializable {
 
             // Create the stage
             Stage stage = new Stage();
-            stage.getIcons().add(new Image(AddEvent.class.getResourceAsStream("add.png")));
+
+            // Загрузка иконки с проверкой
+            try {
+                InputStream iconStream = AddEvent.class.getResourceAsStream("/com/barbershop/images/add.png");
+                if (iconStream != null) {
+                    stage.getIcons().add(new Image(iconStream));
+                } else {
+                    System.err.println("Файл иконки не найден: /com/barbershop/images/add.png");
+                }
+            } catch (Exception e) {
+                System.err.println("Ошибка загрузки иконки: " + e.getMessage());
+            }
+
             stage.setScene(scene);
             stage.setTitle("Add Event");
-            stage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows until closed
-            stage.setResizable(false); // Make the stage not resizable
-            stage.showAndWait(); // Show the stage and wait for it to be closed
-
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.showAndWait();
         } catch (IOException e) {
+            AlertController.showError("Ошибка", "Не удалось открыть окно добавления события");
             e.printStackTrace();
         }
     }

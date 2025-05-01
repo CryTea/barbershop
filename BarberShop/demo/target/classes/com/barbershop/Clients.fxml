@@ -63,7 +63,7 @@
                 <VBox prefHeight="10" />
                 <HBox spacing="10" alignment="CENTER">
                     <Button fx:id="addButton" text="New Client" onAction="#onActionAddButton" style="-fx-border-color: transparent; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: GREEN; -fx-text-fill: WHITE ; -fx-font-weight: bold; -fx-font-size: 13;"/>
-                    <Button fx:id="updateButton" text="Update Client" onAction="#onActionUpdateButton" style="-fx-border-color: transparent; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: BLUE; -fx-text-fill: WHITE ; -fx-font-weight: bold; -fx-font-size: 13;"/>
+                    <Button fx:id="updateButton" text="Update Client" onAction="#edit" style="-fx-border-color: transparent; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: BLUE; -fx-text-fill: WHITE ; -fx-font-weight: bold; -fx-font-size: 13;"/>
                     <Button fx:id="deleteButton" text="Delete Client" onAction="#onActionDeleteButton" style="-fx-border-color: transparent; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: RED; -fx-text-fill: WHITE ; -fx-font-weight: bold; -fx-font-size: 13;"/>
                 </HBox>
               </VBox>

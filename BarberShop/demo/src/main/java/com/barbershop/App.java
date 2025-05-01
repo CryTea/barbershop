@@ -14,7 +14,7 @@ public class App extends Application {
     }
 
     public static void loadApp(@SuppressWarnings("exports") Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("My Barbershop App");
         stage.setScene(scene);

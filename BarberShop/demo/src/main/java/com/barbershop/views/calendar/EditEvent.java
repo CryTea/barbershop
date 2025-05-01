@@ -106,9 +106,9 @@ public class EditEvent implements Initializable {
         // Get the selected minute from the Spinner for minute selection
         int selectedMinute = minuteField.getValue();
         // Combine the selected date, hour, and minute into a LocalDateTime object
-        LocalDateTime eventDateTime = LocalDateTime.of(selectedDate, LocalTime.of(selectedHour, selectedMinute));   
+        LocalDateTime eventDateTime = LocalDateTime.of(selectedDate, LocalTime.of(selectedHour, selectedMinute));
 
-        newEvent = new Event(Calendar.selectedEvent.getEventId(), eventDateTime, selected_client.getClient_id(), 0, selected_service.getServiceId(), descriptionField.getText(), event_state);
+        newEvent = new Event(Calendar.selectedEvent.getEventId(), eventDateTime, selected_client.getClient_id(), null, selected_service.getServiceId(), descriptionField.getText(), event_state);
         
         // Check if the new event conflicts with existing events
         if (newEvent != null) {
@@ -377,7 +377,7 @@ public class EditEvent implements Initializable {
 
             // Create the stage
             Stage stage = new Stage();
-            stage.getIcons().add(new Image(EditEvent.class.getResourceAsStream("add.png")));
+            stage.getIcons().add(new Image(EditEvent.class.getResourceAsStream("/com/barbershop/images/add.png")));
             stage.setScene(scene);
             stage.setTitle("Update Event");
             stage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows until closed

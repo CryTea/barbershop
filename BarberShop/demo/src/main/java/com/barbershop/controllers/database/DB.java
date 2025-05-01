@@ -4,27 +4,58 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/** @author Niema Alaoui Mdaghri
- * This class contains only static public methods for database managment, it can be called from anywhere!
- */
+import static java.sql.DriverManager.getConnection;
+
 public class DB {
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/barbershop";
+    private static final String DB_USER = "postgres";
+    private static final String DB_PASSWORD = "1234";
+
+    private static Connection transactionConnection = null;
+    public static Connection conn;
+
+
+
     /** CREATE a DATABASE.
      * @param dbName Database name
      */
-    public static void createDB(String dbName){
-        //create the .db file
-        String jdbcUrl = "jdbc:sqlite:"+dbName.toUpperCase()+".db";
+    public static void createDB(String dbName) {
+        // В PostgreSQL база данных обычно создается через отдельное соединение
+        try (Connection connection = getConnection("jdbc:postgresql://localhost:5432/postgres", DB_USER, DB_PASSWORD);
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE DATABASE " + dbName.toLowerCase());
+            System.out.println("Database created successfully.");
+        } catch (SQLException e) {
+            System.out.println("PostgreSQL ERROR: " + e.getMessage());
+        }
+    }
+
+
+    public static void startTransaction() throws SQLException {
+        if (transactionConnection != null) {
+            throw new SQLException("Transaction already in progress");
+        }
+        transactionConnection = getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        transactionConnection.setAutoCommit(false);
+    }
+
+    public static void commitTransaction() throws SQLException {
+        if (transactionConnection != null) {
+            transactionConnection.commit();
+            transactionConnection.close();
+            transactionConnection = null;
+        }
+    }
+
+    public static void rollbackTransaction() {
         try {
-            //connect to the database
-            Connection connection = DriverManager.getConnection(jdbcUrl);
-            //print connection successful
-            if (connection != null) {
-                System.out.println("Database created successfully.");
-                connection.close();
+            if (transactionConnection != null) {
+                transactionConnection.rollback();
+                transactionConnection.close();
+                transactionConnection = null;
             }
         } catch (SQLException e) {
-            //print connectino error
-            System.out.println("SQLite ERROR: " + e.getMessage());
+            System.out.println("Error rolling back transaction: " + e.getMessage());
         }
     }
 
@@ -33,25 +64,13 @@ public class DB {
      * @param tableName table name
      * @param attributes table attributes
      */
-    public static void createTable(String dbName, String tableName, String attributes){
-        //create the query
-        String query = "CREATE TABLE IF NOT EXISTS " + tableName.toUpperCase() + " (" + attributes + ");";
-        try {
-            //get the database path
-            String jdbcUrl = "jdbc:sqlite:"+dbName.toUpperCase()+".db";
-            //create connection with the database
-            Connection connection = DriverManager.getConnection(jdbcUrl);
-            //create a statement that will wait for the query
-            Statement statement = connection.createStatement();
-            //execute the query
+    public static void createTable(String dbName, String tableName, String attributes) {
+        String query = "CREATE TABLE IF NOT EXISTS " + tableName.toLowerCase() + " (" + attributes + ");";
+        try (Connection connection = getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement statement = connection.createStatement()) {
             statement.execute(query);
-            //print query successful
-            //System.out.println("Table "+tableName.toUpperCase()+" created successfully!");
-            //close connection
-            connection.close();
         } catch (SQLException e) {
-            //print query error
-            System.out.println("SQLite ERROR: " + e.getMessage());
+            System.out.println("PostgreSQL ERROR: " + e.getMessage());
         }
     }
 
@@ -62,59 +81,36 @@ public class DB {
      * @return last inserted id
      */
     public static int insertRow(String dbName, String tableName, String values) {
-        String query = "INSERT INTO " + tableName.toUpperCase() + " VALUES " + values + ";";
-        int id = 0;
-        try {
-            // get the database path
-            String jdbcUrl = "jdbc:sqlite:" + dbName.toUpperCase() + ".db";
-            // create connection with the database
-            Connection connection = DriverManager.getConnection(jdbcUrl);
-            // create a statement that will wait for the query
-            Statement statement = connection.createStatement();
-            // execute the query
-            statement.executeUpdate(query);
-            // retrieve the last inserted row ID
-            ResultSet rs = statement.executeQuery("SELECT last_insert_rowid()");
+        // Изменено "RETURNING id" на "RETURNING client_id" для таблицы clients
+        String returningColumn = tableName.equalsIgnoreCase("clients") ? "client_id" : "id";
+        String query = "INSERT INTO " + tableName.toLowerCase() + " VALUES " + values + " RETURNING " + returningColumn + ";";
+
+        try (Connection connection = getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(query)) {
             if (rs.next()) {
-                id = rs.getInt(1);
+                return rs.getInt(1);
             }
-            // print query successful
-            //System.out.println("Row inserted in table "+tableName.toUpperCase()+" successfully into table!");
-            // close connection
-            connection.close();
-            return id;
+            return -1;
         } catch (SQLException e) {
-            // print query error
-            System.out.println("SQLite ERROR: " + e.getMessage());
+            System.out.println("PostgreSQL ERROR: " + e.getMessage());
             return -1;
         }
     }
 
-    /** UPDATE a ROW in a specific table i a database.
+    /** UPDATE a ROW in a specific table in a database.
      * @param dbName database name
      * @param tableName table name
      * @param setClause new values
      * @param conditions where the values will be updated condition
      */
     public static void updateRow(String dbName, String tableName, String setClause, String conditions) {
-        String query = "UPDATE " + tableName.toUpperCase() + " SET " + setClause + " WHERE " + conditions + ";";
-        try {
-            // Get the database path
-            String jdbcUrl = "jdbc:sqlite:"+dbName.toUpperCase()+".db";
-            // Create connection with the database
-            Connection connection = DriverManager.getConnection(jdbcUrl);
-            // Create a statement that will wait for the query
-            Statement statement = connection.createStatement();
-            // Execute the update query
-            //int rowsAffected = 
+        String query = "UPDATE " + tableName.toLowerCase() + " SET " + setClause + " WHERE " + conditions + ";";
+        try (Connection connection = getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
-            // Print query successful
-            //System.out.println(rowsAffected + " row(s) updated in table " + tableName.toUpperCase() + " successfully!");
-            // Close connection
-            connection.close();
         } catch (SQLException e) {
-            // Print query error
-            System.out.println("SQLite ERROR: " + e.getMessage());
+            System.out.println("PostgreSQL ERROR: " + e.getMessage());
         }
     }
 
@@ -124,25 +120,12 @@ public class DB {
      * @param conditions conditions to identify the row(s) to delete
      */
     public static void deleteRow(String dbName, String tableName, String conditions) {
-        String query = "DELETE FROM " + tableName.toUpperCase() + " WHERE " + conditions + ";";
-        try {
-            // Get the database path
-            String jdbcUrl = "jdbc:sqlite:"+dbName.toUpperCase()+".db";
-            // Create connection with the database
-            Connection connection = DriverManager.getConnection(jdbcUrl);
-            // Enable foreign key constraints
-            connection.createStatement().execute("PRAGMA foreign_keys=off;");
-            // Create a statement that will wait for the query
-            Statement statement = connection.createStatement();
-            // Execute the delete query
+        String query = "DELETE FROM " + tableName.toLowerCase() + " WHERE " + conditions + ";";
+        try (Connection connection = getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement statement = connection.createStatement()) {
             statement.executeUpdate(query);
-            // Print query successful
-            //System.out.println("Row(s) deleted from table " + tableName.toUpperCase() + " successfully!");
-            // Close connection
-            connection.close();
         } catch (SQLException e) {
-            // Print query error
-            System.out.println("SQLite ERROR: " + e.getMessage());
+            System.out.println("PostgreSQL ERROR: " + e.getMessage());
         }
     }
 
@@ -155,42 +138,60 @@ public class DB {
      */
     public static List<List<String>> selectRow(String dbName, String tableName, String attributes, String conditions) {
         List<List<String>> resultList = new ArrayList<>();
-        String query = "SELECT " + attributes + " FROM " + tableName.toUpperCase() + " " + conditions + ";";
-        try {
-            //get the database path
-            String jdbcUrl = "jdbc:sqlite:"+dbName.toUpperCase()+".db";
-            //create connection with the database
-            Connection connection = DriverManager.getConnection(jdbcUrl);
-            //create a statement that will wait for the query
-            Statement statement = connection.createStatement();
-            //execute the query and store the result in a ResultSet
-            ResultSet resultSet = statement.executeQuery(query);
-            //retrieves the metadata for the result set
-            //instance of ResultSetMetaData associated with the current ResultSet
-            // use its methods to access information such as the number of columns, the names of the columns, the types of the columns, and other properties of the result set.
+        String query = "SELECT " + attributes + " FROM " + tableName.toLowerCase();
+        if (!conditions.isEmpty()) {
+            query += " " + conditions;
+        }
+        query += ";";
+
+        try (Connection connection = getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
             ResultSetMetaData metaData = resultSet.getMetaData();
-            //get the number of column
             int columnCount = metaData.getColumnCount();
-            //Display & store the result of the query
-            //System.out.println("\nRows selected from table "+tableName.toUpperCase()+" successfully!");
+
             while (resultSet.next()) {
-                //Store each row individually
                 List<String> row = new ArrayList<>();
                 for (int i = 1; i <= columnCount; i++) {
                     row.add(resultSet.getString(i));
                 }
-                //add the row to the final list
                 resultList.add(row);
-                //Display the result of the query
-                //System.out.println(Colors.BLACK+row);
             }
-            //close connection
-            connection.close();
         } catch (SQLException e) {
-            //print query error
-            System.out.println("SQLite ERROR: " + e.getMessage());
+            System.out.println("PostgreSQL ERROR: " + e.getMessage());
         }
-        //return the query result
         return resultList;
     }
+
+    public static int executeInsertWithReturnId(String sql, Object... params) throws SQLException {
+        try (Connection conn = getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setObject(i + 1, params[i]);
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        throw new SQLException("Failed to get generated ID");
+    }
+
+    public static ResultSet select(String query) {
+        try {
+            Connection conn = getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Statement stmt = conn.createStatement();
+            return stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
 }

@@ -11,9 +11,9 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>dev.aga.sqlite</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>3.45.2.0</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -45,6 +45,8 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>11</release>
+                    <source>14</source>
+                    <target>14</target>
                 </configuration>
             </plugin>
             <plugin>

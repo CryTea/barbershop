@@ -8,6 +8,8 @@ import com.barbershop.controllers.style.HoverController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
@@ -29,6 +31,22 @@ public class Menu{
             e.printStackTrace();
         }
     }
+
+    public static void open() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Menu.class.getResource("/com/barbershop/Menu.fxml"));
+            Parent root = fxmlLoader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Barbershop - Manager Panel");
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     private Button agendaButton;
@@ -66,22 +84,36 @@ public class Menu{
     private Button exitButton;
     @FXML
     private void handleExitButtonClick(ActionEvent event) {
-        page_selected = "Exit";
-        switchPage();
+        // Закрыть текущее окно
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.close();
+
+        // Открыть окно авторизации
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/barbershop/Login.fxml"));
+            Parent root = loader.load();
+            Stage loginStage = new Stage();
+            loginStage.setScene(new Scene(root));
+            loginStage.setTitle("Авторизация");
+            loginStage.setResizable(false);
+            loginStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML 
     private Button themeButton;
     @FXML
     private void handleThemeButtonClick(ActionEvent event) {
         Colors.setTheme(!Colors.isDark);
+
         Stage stage = (Stage) exitButton.getScene().getWindow();
-        try {
-            App.loadApp(stage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stage.close(); // Закрыть старую тему
+        Menu.open();   // Открыть заново, с сохранением UserSession
     }
+
 
 
     @FXML private Pane menuBar;

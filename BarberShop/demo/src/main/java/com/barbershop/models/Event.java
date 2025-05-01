@@ -9,7 +9,7 @@ public class Event {
     private LocalDateTime date_time;
     private int client_id;
     private Client client;
-    private int invoice_id;
+    private Integer invoice_id;
     private Invoice invoice;
     private int service_id;
     private Service service;
@@ -18,7 +18,7 @@ public class Event {
     
     public Event() {}
     //get from database
-    public Event(int event_id, LocalDateTime date_time, int client_id, int invoice_id, int service_id,
+    public Event(int event_id, LocalDateTime date_time, int client_id, Integer invoice_id, int service_id,
             String decription, int type) {
         this.event_id = event_id;
         this.date_time = date_time;
@@ -33,10 +33,12 @@ public class Event {
                 break;
             }
         }
-        for (Invoice i : GetData.AllInvoices) {
-            if (i.getInvoice_id() == invoice_id){
-                this.invoice = i;
-                break;
+        if (invoice_id != null) {
+            for (Invoice i : GetData.AllInvoices) {
+                if (i.getInvoice_id() == invoice_id){
+                    this.invoice = i;
+                    break;
+                }
             }
         }
         for (Service s : GetData.AllServices) {
@@ -46,7 +48,7 @@ public class Event {
         }
     }
     //insert in database
-    public Event(LocalDateTime date_time, int client_id, int invoice_id, int service_id, String decription,
+    public Event(LocalDateTime date_time, int client_id, Integer invoice_id, int service_id, String decription,
             int type) {
         this.date_time = date_time;
         this.client_id = client_id;
@@ -60,10 +62,12 @@ public class Event {
                 break;
             }
         }
-        for (Invoice i : GetData.AllInvoices) {
-            if (i.getInvoice_id() == invoice_id){
-                this.invoice = i;
-                break;
+        if (invoice_id != null) {
+            for (Invoice i : GetData.AllInvoices) {
+                if (i.getInvoice_id() == invoice_id){
+                    this.invoice = i;
+                    break;
+                }
             }
         }
         for (Service s : GetData.AllServices) {
@@ -72,7 +76,7 @@ public class Event {
             }
         }
     }
-    public Event(LocalDateTime date_time, int client_id, int invoice_id, int service_id, String decription) {
+    public Event(LocalDateTime date_time, int client_id, Integer invoice_id, int service_id, String decription) {
         this.date_time = date_time;
         this.client_id = client_id;
         this.invoice_id = invoice_id;
@@ -116,10 +120,10 @@ public class Event {
     public void setClientId(int client_id) {
         this.client_id = client_id;
     }
-    public int getInvoiceId() {
+    public Integer getInvoiceId() {
         return invoice_id;
     }
-    public void setInvoiceId(int invoice_id) {
+    public void setInvoiceId(Integer invoice_id) {
         this.invoice_id = invoice_id;
     }
     public int getServiceId() {

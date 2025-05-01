@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.barbershop.controllers.admin.ManagersController">
+    <children>
+        <HBox spacing="20" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+
+            <!-- Левая часть: таблица и поиск -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                <HBox spacing="10">
+                    <TextField fx:id="searchField" promptText="Поиск..." HBox.hgrow="ALWAYS" />
+                    <Button text="🔍" onAction="#handleSearch"/>
+                </HBox>
+
+                <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="fullNameColumn" text="ФИО" prefWidth="200"/>
+                        <TableColumn fx:id="usernameColumn" text="Логин" prefWidth="150"/>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10">
+                    <Button text="Добавить" onAction="#handleAddManager"/>
+                    <Button text="Редактировать" onAction="#handleEditManager"/>
+                    <Button text="Удалить" onAction="#handleDelete"/>
+                </HBox>
+            </VBox>
+
+            <!-- Правая часть: статистика -->
+            <VBox spacing="15" alignment="TOP_LEFT">
+                <Label text="📊 Статистика" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+                <VBox style="-fx-background-color: white; -fx-padding: 10; -fx-border-color: lightgray; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);" spacing="5">
+                    <Label text="🔒 Админов:" />
+                    <Label fx:id="adminsCountLabel" style="-fx-font-weight: bold;" />
+                </VBox>
+
+                <VBox style="-fx-background-color: white; -fx-padding: 10; -fx-border-color: lightgray; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);" spacing="5">
+                    <Label text="👥 Всего пользователей:" />
+                    <Label fx:id="totalUsersLabel" style="-fx-font-weight: bold;" />
+                </VBox>
+
+                <VBox style="-fx-background-color: white; -fx-padding: 10; -fx-border-color: lightgray; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);" spacing="5">
+                    <Label text="🕒 Время:" />
+                    <Label fx:id="currentTimeLabel" style="-fx-font-weight: bold;" />
+                </VBox>
+            </VBox>
+        </HBox>
+    </children>
+</AnchorPane>

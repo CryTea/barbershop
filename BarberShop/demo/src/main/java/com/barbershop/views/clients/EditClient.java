@@ -109,8 +109,7 @@ public class EditClient implements Initializable {
 
             // Create the stage
             Stage stage = new Stage();
-            stage.getIcons().add(new Image(EditClient.class.getResourceAsStream("client.png")));
-            stage.setScene(scene);
+            stage.getIcons().add(new Image(AddClient.class.getResourceAsStream("/com/barbershop/images/client.png")));            stage.setScene(scene);
             stage.setTitle("Edit Client");
             stage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows until closed
             stage.setResizable(false); // Make the stage not resizable

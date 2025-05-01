@@ -370,7 +370,7 @@ public class GenerateInvoice implements Initializable {
 
             // Create the stage
             Stage stage = new Stage();
-            stage.getIcons().add(new Image(GenerateInvoice.class.getResourceAsStream("invoice.png")));
+            stage.getIcons().add(new Image(GenerateInvoice.class.getResourceAsStream("/com/barbershop/images/invoice.png")));
             stage.setScene(scene);
             stage.setTitle("Generate an invoice");
             stage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows until closed
